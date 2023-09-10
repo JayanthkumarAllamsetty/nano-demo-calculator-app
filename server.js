@@ -3,23 +3,38 @@ const app = express();
 
 const PORT = process.env.PORT || 8080;
 
-const baseUrl = '/calculator'
+const baseUrl = '/calculator';
 
 app.use(express.json());
 
 const baseRouter = express.Router();
 
 baseRouter.get('/greeting', (req, res) => {
-    return res.send('');
+    return res.send('Hello world!');
 });
 
 baseRouter.post('/add', (req, res) => {
-    res.json({ "": null });
+    const { first, second } = req.body;
+
+    // Check if both 'first' and 'second' are valid numbers
+    if (typeof first !== 'number' || typeof second !== 'number') {
+        return res.status(400).json({ error: 'Invalid input. Please provide valid numbers.' });
+    }
+
+    const result = first + second;
+    res.json({ result });
 });
 
-
 baseRouter.post('/subtract', (req, res) => {
-    res.json({ "": null });
+    const { first, second } = req.body;
+
+    // Check if both 'first' and 'second' are valid numbers
+    if (typeof first !== 'number' || typeof second !== 'number') {
+        return res.status(400).json({ error: 'Invalid input. Please provide valid numbers.' });
+    }
+
+    const result = first - second;
+    res.json({ result });
 });
 
 app.use(baseUrl, baseRouter);
